@@ -101,7 +101,7 @@ namespace Web.Extensions
                     Log.Warning(
                         exception,
                         "An Exception occured ! instance: {instance}",
-                        errorDetails.instance
+                        errorDetails.traceId
                     );
 
                     Log.Warning(
@@ -117,7 +117,7 @@ namespace Web.Extensions
                     Log.Error(
                         exception,
                         "An unexpected error occurred! instance: {instance}",
-                        errorDetails.instance
+                        errorDetails.traceId
                     );
                     Log.Warning(
                         "An error ocurred proccessing request for path: {path}, action: {action}, returned status code: {status}, result: {@result}",

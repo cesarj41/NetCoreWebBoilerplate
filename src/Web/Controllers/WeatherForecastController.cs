@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Web.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [AllowAnonymous]
+    public class WeatherForecastController : BaseController
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpPost]
+        public IEnumerable<WeatherForecast> Get(TestViewModel viewModel)
         {
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -34,5 +28,11 @@ namespace Web.Controllers
             })
             .ToArray();
         }
+    }
+
+    public class TestViewModel
+    {
+        [Required]
+        public string Name { get; set; }
     }
 }

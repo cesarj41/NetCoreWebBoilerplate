@@ -1,4 +1,3 @@
-
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -24,12 +23,12 @@ namespace Web
         {
             services.AddOptions();
             services.AddSwagger();
-            services.AddApiConfiguration();
             services.AddApplicationServices(Configuration);
-            services.AddDatabases(Configuration);
-            services.AddQueueSystem(Configuration);
+           // services.AddDatabases(Configuration);
+           // services.AddQueueSystem(Configuration);
             services.AddMediatR(typeof(Startup));
             services.AddControllers();
+            services.AddApiConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +44,7 @@ namespace Web
                 app.UseSwagger();
             }
 
-            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard();
             app.UseCustomStatusCode();
             app.UseRouting();
             app.UseAuthorization();
