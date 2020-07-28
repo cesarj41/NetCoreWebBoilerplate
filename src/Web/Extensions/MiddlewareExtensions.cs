@@ -64,7 +64,7 @@ namespace Web.Extensions
                 else if (statusCode == 405) problem = "Invalid request, method not allowed";
                 else if (statusCode == 406) problem = "Invalid request, not acceptable";
 
-                var errorDetails = new ErrorDetails(problem);
+                var errorDetails = new ErrorDetails(new Payload(values: problem));
 
                 Log.Warning(
                     "Request for path: {path}, method: {httpMethod} was invalid, returned status code: {status}, result: {@result}",
@@ -89,7 +89,7 @@ namespace Web.Extensions
                 int statusCode = 500;
                 object actionName = "";
                 var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
-                var errorDetails = new ErrorDetails("Internal server error");
+                var errorDetails = new ErrorDetails(new Payload(values: "Internal server error"));
                 var exception = errorFeature.Error;
 
                 context.Items.TryGetValue("actionName", out actionName);

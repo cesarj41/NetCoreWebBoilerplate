@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Web.Models;
 
 namespace Web.Extensions
 {
@@ -21,12 +23,12 @@ namespace Web.Extensions
 
         }
 
-        public static string[] Errors(this ModelStateDictionary modelState)
+        public static IEnumerable<Payload> Errors(this ModelStateDictionary modelState)
         {
-            return modelState.Values
-                .SelectMany(values => values.Errors)
-                .Select(error => error.ErrorMessage)
-                .ToArray();
+            return modelState
+                .Select(p => new Payload(
+                    p.Key, 
+                    p.Value.Errors.Select(p => p.ErrorMessage)));
         }
 
         public static string[] Errors(this IdentityResult result)

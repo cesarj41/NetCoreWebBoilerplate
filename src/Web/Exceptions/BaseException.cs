@@ -2,19 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Web.Models;
 
 namespace Web.Exceptions
 {
     public abstract class BaseException : Exception
     {
         public int HttpStatusCode { get; private set; }
-        private readonly List<string> _errors = new List<string>(); 
-        public IReadOnlyCollection<string> Errors => _errors.AsReadOnly();
-
-        public BaseException(HttpStatusCode statusCode, params string[] messages)
-            :base(messages.Aggregate((curr, next) => $"{curr},{Environment.NewLine}{next}"))
+        private readonly List<Payload> _errors = new List<Payload>(); 
+        public IReadOnlyCollection<Payload> Errors => _errors.AsReadOnly();
+        
+        public BaseException(HttpStatusCode statusCode, params Payload[] messages)
+            :base(String.Join(",", messages.Select(msg => String.Join(",", msg.Error.Value))))
         {
-            _errors.AddRange(messages);
+            foreach (var item in messages)
+            {
+                _errors.Add(item);
+            }
             HttpStatusCode = (int) statusCode;
         }
 
